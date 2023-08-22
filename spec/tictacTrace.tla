@@ -16,8 +16,8 @@ TraceNil == "null"
 
 (* Can be extracted from init *)
 DefaultImpl(varName) ==
-    CASE varName = "hour" -> {0..12}
-    []  varName = "minute" -> {0..60}
+    CASE varName = "hour" -> 0..23
+    []  varName = "minute" -> 0..59
 
 MapVariablesImpl(t) ==
     /\
@@ -39,9 +39,8 @@ IsTick ==
 TraceNextImpl ==
     \/ IsTick
 
-ComposedNext == TRUE
+ComposedNext == FALSE
 
-BASE == INSTANCE tictac
-BaseSpec == BASE!Init /\ [][BASE!Next \/ ComposedNext]_vars
+BaseSpec == Init /\ [][Next \/ ComposedNext]_vars
 -----------------------------------------------------------------------------
 =============================================================================
