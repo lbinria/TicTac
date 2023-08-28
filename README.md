@@ -6,9 +6,22 @@ TicTac is a tutorial that aims to show you how use TLA+ trace validation. Throug
 
 ## Prerequisites
 
- - Java >= 19.0
+ - Java >= 17
  - Apache maven >= 3.6
  - Python >= 3.9
+ - TLA+ >= 1.8.0 (The Clarke release)
+
+### Install TLA+
+
+See README at https://github.com/lbinria/trace_validation_tools
+
+### Install python librairies
+
+Some python libraries are needed to execute the pipeline.
+
+`pip install ndjson` 
+
+(note that in some cases `pip` may be `pip3`)
 
 ## Build
 
@@ -18,7 +31,9 @@ TicTac is a tutorial that aims to show you how use TLA+ trace validation. Throug
 
 Command: 
 
-`python trace_validation_pipeline.py`
+`python trace_validation_pipeline.py` 
+
+(note that in some cases `python` may be `python3`)
 
 Pipeline is compound by following steps:
 
@@ -32,6 +47,8 @@ Pipeline is compound by following steps:
 If a trace file (e.g: `trace-tla.ndjson`) already exist you can only run the TLC trace validation process by using this following command:
 
 `python tla_trace_validation.py spec/tictacTrace.tla trace-tla.ndjson`
+
+(note that in some cases `python` may be `python3`)
 
 # Directory structure
 

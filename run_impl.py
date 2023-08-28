@@ -1,6 +1,5 @@
 import os
-from subprocess import Popen, PIPE, TimeoutExpired
-import ndjson
+from subprocess import Popen, TimeoutExpired
 import clean
 
 def run():
