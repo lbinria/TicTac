@@ -1,6 +1,10 @@
 # TicTac
 
-TicTac is a tutorial that aims to show you how use TLA+ trace validation. Throughout the version (see git tags) we introduce some features of instrumentation. 
+This is a tutorial that aims to show how use TLA+ [trace validation
+tools](https://github.com/lbinria/trace_validation_tools).
+
+[comment]: <> (Throughout the version (see git tags) we introduce some
+features of instrumentation.)
 
 # How to run 
 
