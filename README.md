@@ -61,7 +61,7 @@ or
 and then perform the trace validation on the obtained trace file
 `trace-tla.ndjson` by using the command:
 
-`python tla_trace_validation.py spec/tictacTrace.tla trace-tla.ndjson`
+`python tla_trace_validation.py spec/tictacTrace.tla --trace trace-tla.ndjson`
 
 # Directory structure
 
