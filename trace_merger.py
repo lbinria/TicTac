@@ -32,3 +32,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # Print output
     print(run(args.files, config=args.config, sort=args.sort))
+

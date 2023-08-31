@@ -11,7 +11,7 @@ def run():
     return p
 
 
-def run_all(timeout=5.):
+def run_all(timeout=20.):
     # Run all processes
     p = run()
     try:
@@ -19,7 +19,6 @@ def run_all(timeout=5.):
     except TimeoutExpired:
         print("Timeout reach.\n")
         p.terminate()
-
 
 if __name__ == "__main__":
     # Clean directory
