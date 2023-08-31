@@ -1,9 +1,6 @@
 import os
 import argparse
-import time
-import signal
 from subprocess import Popen
-import sys
 
 # Path to TLA installation 
 tla_dir = "/opt/TLAToolbox-1.8.0-nightly/toolbox"
