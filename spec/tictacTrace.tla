@@ -1,11 +1,11 @@
 --------------------------- MODULE tictacTrace ---------------------------
 (***************************************************************************)
-(* Simplified specification of 2PC *)
+(* clock *)
 (***************************************************************************)
 
-EXTENDS TLC, Sequences, SequencesExt, Naturals, FiniteSets, Bags, Json, IOUtils, tictac, TVOperators, TraceSpec
+EXTENDS TLC, Sequences, SequencesExt, Naturals, FiniteSets, Bags, Json, IOUtils, tictac, TraceSpec
 
-(* Override CONSTANTS *)
+(* Override CONSTANTS from the original spec *)
 
 (* Replace Nil constant *)
 TraceNil == "null"
@@ -14,11 +14,12 @@ TraceNil == "null"
 \*TraceServer ==
 \*    ToSet(JsonTrace[1].Server)
 
-(* Can be extracted from init *)
+(* Can be extracted from Init in original spec*)
 DefaultImpl(varName) ==
     CASE varName = "hour" -> 0..23
     []  varName = "minute" -> 0..59
 
+(* Can be extracted from vars in original spec*)
 MapVariablesImpl(t) ==
     /\
         IF "hour" \in DOMAIN t
@@ -29,16 +30,14 @@ MapVariablesImpl(t) ==
         THEN minute' = MapVariable(minute, "minute", t)
         ELSE TRUE
 
-
-
 IsTick ==
     /\ IsEvent("Tick")
     /\ Tick
 
-
 TraceNextImpl ==
     \/ IsTick
 
+(* if we want to compose actions *)
 ComposedNext == FALSE
 
 BaseSpec == Init /\ [][Next \/ ComposedNext]_vars

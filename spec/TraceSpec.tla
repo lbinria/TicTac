@@ -7,7 +7,6 @@ ASSUME TLCGet("config").mode = "bfs"
 
 VARIABLES l
 
-
 (* Operators to override *)
 Vars == Print(<<"Trace spec isn't valid, you should override 'Vars'.">>, <<>>)
 BaseInit == Print(<<"Trace spec isn't valid, you should override 'BaseInit'.">>, Nil)
@@ -32,8 +31,6 @@ Trace ==
 
 logline ==
     Trace[l]
-
-
 
 IsEvent(e) ==
     \* Equals FALSE if we get past the end of the log, causing model checking to stop.

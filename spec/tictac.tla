@@ -3,21 +3,11 @@ EXTENDS Naturals, FiniteSets, Sequences, TLC
 
 \*CONSTANTS test
 
-\* A reserved value.
-CONSTANTS Nil
-
-----
-
 VARIABLE hour, minute
 
 vars == <<hour, minute>>
 
 Init ==
-    /\ hour \in 0..23
-    /\ minute \in 0..59
-
-(* Invariant *)
-TypeInv ==
     /\ hour \in 0..23
     /\ minute \in 0..59
 
@@ -35,7 +25,11 @@ Tick ==
 
 Next == Tick
 
-
 Spec == Init /\ [][Next]_vars
+
+(* Invariant *)
+TypeInv ==
+    /\ hour \in 0..23
+    /\ minute \in 0..59
 
 ===============================================================================
