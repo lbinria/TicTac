@@ -73,7 +73,7 @@ and then perform the trace validation on the obtained trace file
 ## v1.0
 
 This version proposes a very naive implementation of the tictac
-specification [tictac.tla](spec/tictac.tla). An error was deliberately
+specification [tictac.tla](spec/v1/tictac.tla). An error was deliberately
 introduced in the implementation to show how the trace specification
 is able to detect a discrepancy between the implementation and the
 specification.

@@ -1,57 +1,22 @@
 package org.lbee;
 
-import org.lbee.instrumentation.BehaviorRecorder;
-import org.lbee.instrumentation.VirtualField;
-import org.lbee.instrumentation.clock.SharedClock;
-
 import java.io.IOException;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        // Get & init clock
-        SharedClock clock = SharedClock.get("tictac.clock");
-        clock.reset();
+        assert args.length > 0 : "We expect the name of the version to execute as an argument.";
 
-        // Init behavior recorder
-        BehaviorRecorder behaviorRecorder = BehaviorRecorder.create("tictac.ndjson", clock);
-        // Get variables from spec
-        VirtualField specHour = behaviorRecorder.getVariable("hour");
-        VirtualField specMinute = behaviorRecorder.getVariable("minute");
+        final TicTacImplementation impl;
 
-        Random rand = new Random(42);
-        int hour = rand.nextInt(0, 23), minute = rand.nextInt(0, 59);
-        while (true) {
+        if (args[0].equals("v1"))
+            impl = new TicTacV1();
+        else if (args[0].equals("v2"))
+            impl = new TicTacV2();
+        else
+            // Default case
+            impl = new TicTacV1();
 
-            if (minute < 59) {
-                minute += 1;
-                // Notify
-//                specMinute.apply("Add", 1);
-                specMinute.set(minute);
-            }
-            else {
-                minute = 0;
-                specMinute.set(0);
-
-                // Introduce error here, condition should be hour < 23
-                if (hour <= 23) {
-                    hour += 1;
-                    //specHour.apply("Add", 1);
-                    specHour.set(hour);
-                }
-                else {
-                    hour = 0;
-                    specHour.set(0);
-                }
-            }
-
-            // Commit event tick !
-            behaviorRecorder.commitChanges("Tick");
-
-            System.out.printf("Clock: %s:%s.\n", hour, minute);
-            TimeUnit.MILLISECONDS.sleep(10);
-        }
+        impl.run();
     }
 }

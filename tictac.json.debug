@@ -1,0 +1,10 @@
+{
+    "module": {
+        "extends":"tictacTrace",
+        "init":"TraceInit",
+        "next":"TraceNextImpl"
+    },
+    "configuration": {
+        "constants": "Nil <- TraceNil\nResetValue <- TraceResetValue\nDefault <- DefaultImpl\nVars <- vars\nBaseInit <- Init\nTraceNext <- TraceNextImpl\nMapVariables <- MapVariablesImpl"
+    }
+}
