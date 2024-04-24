@@ -1,55 +1,47 @@
 --------------------------------- MODULE tictac ---------------------------------
-EXTENDS Naturals, FiniteSets, Sequences, TLC
+EXTENDS Naturals, Integers, TLC
 
-CONSTANTS ResetValue
-VARIABLE clockValue, nTick, nTack, n, actionName
+Abs(x) == IF x > 0 THEN x ELSE -x
 
-vars == <<actionName, clockValue, nTick, nTack, n>>
+VARIABLE clockValue, nTick, nTack, action
+
+vars == <<action, clockValue, nTick, nTack>>
 
 Init ==
-    /\ n = 0
     /\ clockValue = 0
     /\ nTick = 0
     /\ nTack = 0
-    /\ actionName = "Init"
+    /\ action \in {"Tick", "Tack"}
 
 TypeInv ==
-    /\ n \in 0..1
-    /\ clockValue >= ResetValue
+    /\ clockValue >= 0
     /\ nTick \in Nat
     /\ nTack \in Nat
+    /\ action \in {"Tick", "Tack"}
+    /\ Abs(nTick - nTack) <= 1
 
 Tick ==
-    /\ n = 0
+    /\ action = "Tack"
     /\ clockValue' = clockValue + 1
     /\ nTick' = nTick + 1
-    /\ n' = 1
-    /\ actionName' = "Tick"
+    /\ action' = "Tick"
     /\ UNCHANGED nTack
 
 Tack ==
-    /\ n = 1
+    /\ action = "Tick"
     /\ clockValue' = clockValue + 1
     /\ nTack' = nTack + 1
-    /\ n' = 0
-    /\ actionName' = "Tack"
+    /\ action' = "Tack"
     /\ UNCHANGED nTick
 
-(* May reset on odd number *)
 ResetClock ==
-    /\ clockValue' = ResetValue
-    /\ actionName' = "ResetClock"
-    /\ UNCHANGED <<nTick, nTack, n>>
-
-\*ChangeRate(r) ==
-\*    /\ clockRate' = r
-\*    /\ UNCHANGED <<clockValue, nTick, nTack, n>>
+    /\ clockValue' = 0
+    /\ UNCHANGED <<action, nTick, nTack>>
 
 Next ==
     \/ Tick
     \/ Tack
     \/ ResetClock
-\*    \/ \E r \in Nat : ChangeRate(r)
 
 Spec == Init /\ [][Next]_vars
 
