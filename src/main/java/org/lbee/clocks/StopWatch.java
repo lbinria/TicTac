@@ -1,7 +1,6 @@
 package org.lbee.clocks;
 
 import java.io.IOException;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.lbee.instrumentation.clock.ClockException;
@@ -13,16 +12,13 @@ public class StopWatch {
     public void run(int startHour, int startMinute, int endHour, int endMinute)
             throws IOException, InterruptedException, ClockException {
         // Create a tracer
-        TLATracer tracer = TLATracer.getTracer("StopWatch.ndjson",
+        TLATracer tracer = TLATracer.getTracer("stopwatch.ndjson",
                 ClockFactory.getClock(ClockFactory.MEMORY));
 
         // Get variables from spec
         VirtualField specHour = tracer.getVariableTracer("hour");
         VirtualField specMinute = tracer.getVariableTracer("minute");
 
-        Random rand = new Random(42);
-        // int hour = rand.nextInt(0, 23);
-        // int minute = rand.nextInt(0, 59);
         int hour = startHour;
         int minute = startMinute;
         while (! (hour == endHour && minute == endMinute)) {
@@ -31,7 +27,7 @@ public class StopWatch {
                 specMinute.update(minute);
             } else {
                 minute = 0;
-                // Introduce error here, condition should be hour < 23
+                // BUG: condition should be hour < 23
                 if (hour <= 23) {
                     hour += 1;
                 } else {

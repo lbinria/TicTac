@@ -1,18 +1,14 @@
---------------------------- MODULE tictacTrace ---------------------------
+--------------------------- MODULE TicTacTrace ---------------------------
 (***************************************************************************)
 (* clock *)
 (***************************************************************************)
 
-EXTENDS TLC, Sequences, SequencesExt, Naturals, FiniteSets, Bags, Json, IOUtils, tictac, TraceSpec
+EXTENDS TLC, Sequences, SequencesExt, Naturals, FiniteSets, Bags, Json, IOUtils, TicTac, TraceSpec
 
 (* Override CONSTANTS from the original spec *)
 
 (* Replace Nil constant *)
 TraceNil == "null"
-
-(* Replace ResetValue constant *)
-TraceResetValue ==
-    JsonTrace[1].ResetValue
 
 (* Can be extracted from Init in original spec*)
 DefaultImpl(varName) ==
@@ -21,18 +17,18 @@ DefaultImpl(varName) ==
     []  varName = "nTack" -> 0
 
 (* Can be extracted from vars in original spec*)
-MapVariablesImpl(t) ==
+UpdateVariablesImpl(t) ==
     /\
         IF "clockValue" \in DOMAIN t
-        THEN clockValue' = MapVariable(clockValue, "clockValue", t)
+        THEN clockValue' = UpdateVariable(clockValue, "clockValue", t)
         ELSE TRUE
     /\
         IF "nTick" \in DOMAIN t
-        THEN nTick' = MapVariable(nTick, "nTick", t)
+        THEN nTick' = UpdateVariable(nTick, "nTick", t)
         ELSE TRUE
     /\
         IF "nTack" \in DOMAIN t
-        THEN nTack' = MapVariable(nTack, "nTack", t)
+        THEN nTack' = UpdateVariable(nTack, "nTack", t)
         ELSE TRUE
 
 IsTick ==

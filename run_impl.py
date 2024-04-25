@@ -8,18 +8,19 @@ def clean():
     for trace_file in trace_files:
         os.remove(trace_file)
 
-def run(version, sh = 15, sm = 0, eh = 3, em = 0):
+def run(version, args):
     p = Popen([
         "java",
         "-cp",
         "target/TicTac-1.0-SNAPSHOT-jar-with-dependencies.jar",
         "org.lbee.clocks."+version,
-        sh, sm, eh, em
+        args[0], args[1], args[2], args[3]
         ])
     p.wait()
     p.terminate()
     # return p
 
+# deprecated
 def runWithTimeout(version, timeout=5):
     # Run all processes
     p = run(version)
@@ -36,11 +37,8 @@ if __name__ == "__main__":
                         default="StopWatch", help="Version to run")
     parser.add_argument('args', type=str, nargs="*", help="args")
     args = parser.parse_args()
-    print("ARGS:",args)
+    print("ARGS:",args.args)
     # Clean trace files in current directory
     clean()
-    # run
-    if args.version == "StopWatch":
-        run(args.version, args.args[0], args.args[1], args.args[2], args.args[3])
-    # Run the program with timeout
-    # runWithTimeout(args.version)
+    # run the program (fill with dummy args in case of missing args)
+    run(args.version, args.args+["0","0","0"])

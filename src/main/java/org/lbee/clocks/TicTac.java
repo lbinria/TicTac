@@ -8,10 +8,8 @@ import org.lbee.instrumentation.clock.ClockFactory;
 import org.lbee.instrumentation.trace.TLATracer;
 import org.lbee.instrumentation.trace.VirtualField;
 
-public class TicTacV2 implements TicTacImplementation {
-    @Override
-    public void run() throws IOException, InterruptedException, ClockException {
-
+public class TicTac {
+    public void run(int nbTicks) throws IOException, InterruptedException, ClockException {
         // Create a tracer
         TLATracer tracer = TLATracer.getTracer("tictac.ndjson",
                 ClockFactory.getClock(ClockFactory.MEMORY));
@@ -23,20 +21,18 @@ public class TicTacV2 implements TicTacImplementation {
 
         Random rand = new Random(42);
 
-        final int MAX_ITER = 100;
-        int clockValue = 2;
+        int clockValue = 0;
         int nTick = 0;
         int nTack = 0;
 
-        for (int i = 0; i < MAX_ITER; i++) {
+        for (int i = 0; i < nbTicks; i++) {
             // At random point, reset clock
             if (rand.nextInt(0, 100) == 42 && clockValue % 2 == 1){
                 System.out.printf("Reset clock at %s.\n", clockValue);
-                clockValue = 2;
-                specClock.update(2);
+                clockValue = 0;
 
+                specClock.update(clockValue);
                 tracer.log("ResetClock");
-                continue;
             }
 
             String eventName;
@@ -50,16 +46,21 @@ public class TicTacV2 implements TicTacImplementation {
                 specNTack.apply("Add", 1);
                 eventName = "Tack";
             }
-
             // Advance clock
             clockValue++;
             specClock.apply("Add", 1);
 
-            // tracer.commitChanges(eventName);
-            tracer.log();
-            System.out.println(eventName + ".");
+            tracer.log(eventName);
 
+            System.out.println(eventName + " - " + clockValue);
         }
 
+        System.out.println("Number of tics/tacs: " + nTick + "/" + nTack);
+
+    }
+    public static void main(String[] args) throws IOException, InterruptedException, ClockException {
+        int nbTicks = args.length > 0 ? Integer.parseInt(args[0]) : 0;
+        TicTac impl = new TicTac();
+        impl.run(nbTicks);
     }
 }

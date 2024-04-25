@@ -1,4 +1,4 @@
---------------------------------- MODULE tictac ---------------------------------
+--------------------------------- MODULE TicTac ---------------------------------
 EXTENDS Naturals, Integers, TLC
 
 Abs(x) == IF x > 0 THEN x ELSE -x

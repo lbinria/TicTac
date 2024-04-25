@@ -16,7 +16,7 @@ DefaultImpl(varName) ==
     []  varName = "minute" -> 0..59
 
 (* Can be extracted from vars in original spec*)
-MapVariablesImpl(t) ==
+UpdateVariablesImpl(t) ==
     /\
         IF "hour" \in DOMAIN t
         THEN hour' = UpdateVariable(hour, "hour", t)
