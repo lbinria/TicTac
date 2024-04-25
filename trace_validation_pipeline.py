@@ -13,8 +13,11 @@ def get_files(version):
 parser = argparse.ArgumentParser("")
 parser.add_argument('-c', '--compile', type=bool, action=argparse.BooleanOptionalAction)
 parser.add_argument('-v', '--version', type=str, required=False, default="tictac", help="Version")
+parser.add_argument('-dfs', '--dfs', type=bool, action=argparse.BooleanOptionalAction, help="depth-first search")
 parser.add_argument('args', type=str, nargs="*", help="args")
 args = parser.parse_args()
+
+print(args)
 
 files = get_files(args.version)
 
@@ -40,7 +43,7 @@ print("# Merge traces.\n")
 trace_merger.run(files, sort=True, remove_meta=True, out="trace.ndjson")
 
 # Validate trace
-print("# Start TLA+ trace spec.\n")
-tla_trace_validation.run_tla("spec/"+args.version+"Trace.tla","trace.ndjson")
+print(f"# Start TLA+ trace validation.\n")
+tla_trace_validation.run_tla("spec/"+args.version+"Trace.tla","trace.ndjson","",args.dfs)
 
 # print("End pipeline.")

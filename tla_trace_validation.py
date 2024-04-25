@@ -11,7 +11,8 @@ tla_cp = f"{tla_jar}:{community_modules_jar}"
 # Run TLC
 def run_tla(trace_spec,trace="trace.ndjson",config="conf.ndjson",dfs=False):
     os.environ["TRACE_PATH"] = trace
-    os.environ["CONFIG_PATH"] = config
+    # os.environ["CONFIG_PATH"] = config
+    print(f"Running TLA+ trace validation with DFS={dfs}")
     if dfs:
         tla_trace_validation_process = Popen([
             "java",
@@ -40,7 +41,7 @@ if __name__ == "__main__":
     parser.add_argument('spec', type=str, help="Specification file")
     parser.add_argument('--trace', type=str, required=False, default="trace.ndjson", help="Trace file")
     parser.add_argument('--config', type=str, required=False, default="conf.ndjson", help="Config file")
-    parser.add_argument('-dfs', '--dfs', type=bool, action=argparse.BooleanOptionalAction, help="breadth-first search")
+    parser.add_argument('-dfs', '--dfs', type=bool, action=argparse.BooleanOptionalAction, help="depth-first search")
     args = parser.parse_args()
     # Run
     run_tla(args.spec,args.trace,args.config,args.dfs)
