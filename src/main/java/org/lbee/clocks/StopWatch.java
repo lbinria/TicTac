@@ -9,11 +9,11 @@ import org.lbee.instrumentation.clock.ClockFactory;
 import org.lbee.instrumentation.trace.TLATracer;
 import org.lbee.instrumentation.trace.VirtualField;
 
-public class Clock11h implements TicTacImplementation {
-    @Override
-    public void run() throws IOException, InterruptedException, ClockException {
+public class StopWatch {
+    public void run(int startHour, int startMinute, int endHour, int endMinute)
+            throws IOException, InterruptedException, ClockException {
         // Create a tracer
-        TLATracer tracer = TLATracer.getTracer("Clock11h.ndjson",
+        TLATracer tracer = TLATracer.getTracer("StopWatch.ndjson",
                 ClockFactory.getClock(ClockFactory.MEMORY));
 
         // Get variables from spec
@@ -21,24 +21,25 @@ public class Clock11h implements TicTacImplementation {
         VirtualField specMinute = tracer.getVariableTracer("minute");
 
         Random rand = new Random(42);
-        int hour = rand.nextInt(0, 23), minute = rand.nextInt(0, 59);
-        while (true) {
+        // int hour = rand.nextInt(0, 23);
+        // int minute = rand.nextInt(0, 59);
+        int hour = startHour;
+        int minute = startMinute;
+        while (! (hour == endHour && minute == endMinute)) {
             if (minute < 59) {
                 minute += 1;
                 specMinute.update(minute);
             } else {
                 minute = 0;
-                specMinute.update(0);
-                // Introduce error here, condition should be hour < 11
-                if (hour <= 11) {
+                // Introduce error here, condition should be hour < 23
+                if (hour <= 23) {
                     hour += 1;
-                    specHour.update(hour);
                 } else {
                     hour = 0;
-                    specHour.update(0);
                 }
+                specMinute.update(0);
+                specHour.update(hour);
             }
-
             // Commit event tick !
             tracer.log("Tick");
 
@@ -48,7 +49,11 @@ public class Clock11h implements TicTacImplementation {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException, ClockException {
-        final TicTacImplementation impl = new Clock11h();
-        impl.run();
+        int startHour = args.length > 0 ? Integer.parseInt(args[0]) : 0;
+        int startMinute = args.length > 1 ? Integer.parseInt(args[1]) : 0;
+        int endHour = args.length > 2 ? Integer.parseInt(args[2]) : 23;
+        int endMinute = args.length > 3 ? Integer.parseInt(args[3]) : 59;
+        StopWatch impl = new StopWatch();
+        impl.run(startHour, startMinute, endHour, endMinute);
     }
 }

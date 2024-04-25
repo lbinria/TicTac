@@ -1,9 +1,9 @@
---------------------------- MODULE Clock11hTrace ---------------------------
+--------------------------- MODULE StopWatchTrace ---------------------------
 (***************************************************************************)
 (* clock *)
 (***************************************************************************)
 
-EXTENDS TLC, Sequences, SequencesExt, Naturals, FiniteSets, Bags, Json, IOUtils, Clock11h, TraceSpec
+EXTENDS TLC, Sequences, SequencesExt, Naturals, FiniteSets, Bags, Json, IOUtils, StopWatch, TraceSpec
 
 (* Override CONSTANTS from the original spec *)
 
