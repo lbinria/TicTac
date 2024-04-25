@@ -111,6 +111,13 @@ modules.xml
 # Sonarlint plugin
 .idea/sonarlint
 
+# cache
+__pycache__
+.DS_Store
+
+# VScode
+.vscode/
+
 # Specific files
 *.clock
 *.ndjson.conf
