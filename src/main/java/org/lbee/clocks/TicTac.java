@@ -25,28 +25,28 @@ public class TicTac {
         int nTick = 0;
         int nTack = 0;
 
+        String eventName = "Tick";
+
         for (int i = 0; i < nbTicks; i++) {
             // At random point, reset clock
-            if (rand.nextInt(0, 100) == 42 && clockValue % 2 == 1){
+            if (rand.nextInt(0, 100) == 42 && clockValue % 2 == 1) {
                 System.out.printf("Reset clock at %s.\n", clockValue);
                 clockValue = 0;
-
                 specClock.update(clockValue);
                 tracer.log("ResetClock");
             }
 
-            String eventName;
+            // BUG: should test eventName instead of clockValue 
+            // if (eventName == "Tick") {
             if (clockValue % 2 == 0) {
+                nTack++;
+                specNTack.apply("Add", 1);
+                eventName = "Tack";
+            } else {
                 nTick++;
                 specNTick.apply("Add", 1);
                 eventName = "Tick";
             }
-            else {
-                nTack++;
-                specNTack.apply("Add", 1);
-                eventName = "Tack";
-            }
-            // Advance clock
             clockValue++;
             specClock.apply("Add", 1);
 
@@ -58,6 +58,7 @@ public class TicTac {
         System.out.println("Number of tics/tacs: " + nTick + "/" + nTack);
 
     }
+
     public static void main(String[] args) throws IOException, InterruptedException, ClockException {
         int nbTicks = args.length > 0 ? Integer.parseInt(args[0]) : 0;
         TicTac impl = new TicTac();
