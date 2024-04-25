@@ -7,12 +7,13 @@ import argparse
 import ndjson
 
 def get_files(version):
-    files = [version+".ndjson"]
+    files = [version.lower()+".ndjson"]
     return files
 
 parser = argparse.ArgumentParser("")
 parser.add_argument('-c', '--compile', type=bool, action=argparse.BooleanOptionalAction)
-parser.add_argument('--version', type=str, required=False, default="tictac", help="Version")
+parser.add_argument('-v', '--version', type=str, required=False, default="tictac", help="Version")
+parser.add_argument('args', type=str, nargs="*", help="args")
 args = parser.parse_args()
 
 files = get_files(args.version)
@@ -31,7 +32,8 @@ if args.compile:
 
 # Run
 print("# Start implementation.\n")
-run_impl.run()
+# run the program (fill with dummy args in case of missing args)
+run_impl.run(args.version, args.args+["0","0","0"])
 
 # Merge traces 
 print("# Merge traces.\n")
@@ -39,6 +41,6 @@ trace_merger.run(files, sort=True, remove_meta=True, out="trace.ndjson")
 
 # Validate trace
 print("# Start TLA+ trace spec.\n")
-tla_trace_validation.run_tla("spec/"+args.version+".tla","trace.ndjson")
+tla_trace_validation.run_tla("spec/"+args.version+"Trace.tla","trace.ndjson")
 
 # print("End pipeline.")
