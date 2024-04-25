@@ -7,7 +7,7 @@ and of resetable
 An error was deliberately introduced in each of the corresponding implementations of 
 [StopWatch](src/main/java/org/lbee/clocks/StopWatch.java) 
 and 
-[TicTac](src/main/java/org/lbee/clocks/StopWatch.java) 
+[TicTac](src/main/java/org/lbee/clocks/TicTac.java) 
 to show how the trace specification is able to detect a discrepancy between the implementation and the specification.
 
 ## Prerequisites
@@ -35,7 +35,7 @@ and some of the following accordingly.
 ## Build the Java program
 
 Change the version of the dependency `org.lbee.instrumentation` in the
-file [pom.xml](pom.xml) according to the one you use (in .m2 or on the
+file [pom.xml](pom.xml#L22) according to the one you use (in .m2 or on the
 github maven registry) and run
 
 `mvn package`
