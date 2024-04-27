@@ -18,7 +18,8 @@ public class TicTacWatch {
         return sb.toString();
     }
 
-    public void run(int startHour, int startMinute, int nbTicks) throws IOException, InterruptedException, ClockException {
+    public void run(int startHour, int startMinute, int nbTicks)
+            throws IOException, InterruptedException, ClockException {
         // Create a tracer
         TLATracer tracer = TLATracer.getTracer("tictacwatch.ndjson",
                 ClockFactory.getClock(ClockFactory.MEMORY));
@@ -30,10 +31,7 @@ public class TicTacWatch {
         VirtualField specMinute = tracer.getVariableTracer("minute");
         VirtualField specTictac = tracer.getVariableTracer("tictac");
 
-        String[][] tictac = new String[12][60];
-
-        int nTick = 0;
-        int nTack = 0;
+        String[][] tictac = new String[24][60];
         int hour = startHour;
         int minute = startMinute;
 
@@ -42,15 +40,11 @@ public class TicTacWatch {
         System.out.println("Starting at " + hour + ":" + minute + " with " + nbTicks + " ticks");
 
         for (int i = 0; i < nbTicks; i++) {
-            tictac[hour][minute] = eventName;
-            specTictac.getField(hour).getField(minute).update(eventName);
-
             if (minute < 59) {
                 minute += 1;
                 specMinute.update(minute);
             } else {
                 minute = 0;
-                // BUG: condition should be hour < 23
                 if (hour < 23) {
                     hour += 1;
                 } else {
@@ -60,25 +54,21 @@ public class TicTacWatch {
                 specHour.update(hour);
             }
 
-            // BUG: should test eventName instead of clockValue 
-            if (eventName == "Tick") {
-            // if (minute % 2 == 0) {
-                nTack++;
+            // BUG: if ((hour+minute) % 2 == 0) {
+            if (minute % 2 == 0) {
                 specNTack.apply("Add", 1);
                 eventName = "Tack";
             } else {
-                nTick++;
                 specNTick.apply("Add", 1);
                 eventName = "Tick";
             }
+            tictac[hour][minute] = eventName;
 
+            specTictac.getField(hour).getField(minute).update(eventName);
             tracer.log(eventName);
 
             System.out.println(eventName + " - " + hour + ":" + minute);
         }
-
-        System.out.println("Number of tics/tacs: " + nTick + "/" + nTack);
-        // System.out.println("titacs:" + array2String(tictac));
     }
 
     public static void main(String[] args) throws IOException, InterruptedException, ClockException {

@@ -3,9 +3,9 @@ EXTENDS Naturals, Integers, TLC
 
 Abs(x) == IF x > 0 THEN x ELSE -x
 
-VARIABLE action, nTick, nTack, hour, minute, tictac
+VARIABLE nTick, nTack, hour, minute, tictac
 
-vars == <<action, nTick, nTack, hour, minute, tictac>>
+vars == <<nTick, nTack, hour, minute, tictac>>
 
 Move ==
     IF minute >= 59 THEN
@@ -20,7 +20,6 @@ Move ==
         /\ UNCHANGED hour
 
 Init ==
-    /\ action \in {"Tick", "Tack"}
     /\ nTick = 0
     /\ nTack = 0
     /\ hour \in 0..23
@@ -28,29 +27,30 @@ Init ==
     /\ tictac = [h \in 0..23 |-> [m \in 0..59 |-> ""]]
 
 TypeInv ==
-    /\ action \in {"Tick", "Tack"}
     /\ nTick \in Nat
     /\ nTack \in Nat
     /\ Abs(nTick - nTack) <= 1
     /\ hour \in 0..23
     /\ minute \in 0..59
     /\ \A h \in 0..23 : \A m \in 1..59 :
+        tictac[h][m] \in {"","Tick","Tack"}
+    /\ \A h \in 0..23 : \A m \in 1..59 :
         (tictac[h][m] = "Tick" /\ tictac[h][m-1] /= "") => tictac[h][m-1] = "Tack"
 
 Tick ==
-    /\ action = "Tack"
+    /\ \/ tictac[hour][minute] = "Tack"
+       \/ tictac[hour][minute] = ""
     /\ Move 
     /\ nTick' = nTick + 1
-    /\ action' = "Tick"
-    /\ tictac' = [tictac EXCEPT ![hour][minute] = "Tack"]
+    /\ tictac' = [tictac EXCEPT ![hour'][minute'] = "Tick"]
     /\ UNCHANGED nTack
 
 Tack ==
-    /\ action = "Tick"
+    /\ \/ tictac[hour][minute] = "Tick"
+       \/ tictac[hour][minute] = ""
     /\ Move 
     /\ nTack' = nTack + 1
-    /\ action' = "Tack"
-    /\ tictac' = [tictac EXCEPT ![hour][minute] = "Tick"]
+    /\ tictac' = [tictac EXCEPT ![hour'][minute'] = "Tack"]
     /\ UNCHANGED nTick
 
 Next ==

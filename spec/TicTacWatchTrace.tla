@@ -13,10 +13,6 @@ TraceNil == "null"
 (* Can be extracted from vars in original spec*)
 UpdateVariablesImpl(t) ==
     /\
-        IF "action" \in DOMAIN t
-        THEN action' = UpdateVariable(action, "action", t)
-        ELSE TRUE
-    /\
         IF "nTick" \in DOMAIN t
         THEN nTick' = UpdateVariable(nTick, "nTick", t)
         ELSE TRUE
