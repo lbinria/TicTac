@@ -8,7 +8,9 @@ An error was deliberately introduced in each of the corresponding implementation
 [StopWatch](src/main/java/org/lbee/clocks/StopWatch.java) 
 and 
 [TicTac](src/main/java/org/lbee/clocks/TicTac.java) 
-to show how the trace specification is able to detect a discrepancy between the implementation and the specification. There is also a different implementation of a TicTac clock whose purpose is to show how more complex variables like a matrice can be logged (can be validated using the specifications [TicTac](spec/TicTac.tla) and [TicTacWatch](spec/TicTacWatch.tla)).   
+to show how the trace specification is able to detect a discrepancy between the implementation and the specification. There is also a different implementation of a TicTac clock 
+([TicTacWatch](src/main/java/org/lbee/clocks/TicTacWatch.java) )
+whose purpose is to show how more complex variables like a matrice can be logged (can be validated using the specifications [TicTac](spec/TicTac.tla) and [TicTacWatch](spec/TicTacWatch.tla)).   
 
 ## Prerequisites
 
