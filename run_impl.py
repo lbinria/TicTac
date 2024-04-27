@@ -39,6 +39,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print("ARGS:",args.args)
     # Clean trace files in current directory
-    clean()
+    # clean()
     # run the program (fill with dummy args in case of missing args)
     run(args.version, args.args+["0","0","0"])

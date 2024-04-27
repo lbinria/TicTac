@@ -3,12 +3,12 @@ This is a tutorial that aims to show how use TLA+
 It uses the specification of a 
 [StopWach](spec/StopWatch.tla)
 and of resetable 
-[TicTac clock](spec/TicTac.tla). 
+[TicTac](spec/TicTac.tla) clock. 
 An error was deliberately introduced in each of the corresponding implementations of 
 [StopWatch](src/main/java/org/lbee/clocks/StopWatch.java) 
 and 
 [TicTac](src/main/java/org/lbee/clocks/TicTac.java) 
-to show how the trace specification is able to detect a discrepancy between the implementation and the specification.
+to show how the trace specification is able to detect a discrepancy between the implementation and the specification. There is also a different implementation of a TicTac clock whose purpose is to show how more complex variables like a matrice can be logged (can be validated using the specifications [TicTac](spec/TicTac.tla) and [TicTacWatch](spec/TicTacWatch.tla)).   
 
 ## Prerequisites
 
@@ -62,22 +62,36 @@ Examples:
 
 `python trace_validation_pipeline.py -v TicTac 100` 
 
+`python trace_validation_pipeline.py -v TicTacWatch 23 50 20` 
+
 ### Perform trace validation on a trace file 
 
 Alternatively, we can run the implementation with the script [run_impl.py](run_impl.py). Arguments:
 - `--version`: Name of the implementation to test: `StopWatch` or `TicTac`
 - `args`: arguments for the implementation
 
-Eample: `python run_impl.py -v TicTac 100`
+Eamples: 
 
-Then clean the trace file by using the script [trace_merger.py](trace_merger.py). Arguments:
+`python run_impl.py -v StopWatch 22 0 1 0` 
+
+`python run_impl.py -v TicTac 100` 
+
+`python run_impl.py -v TicTacWatch 23 50 20` 
+
+Then, clean the trace file by using the script [trace_merger.py](trace_merger.py). Arguments:
 - `files`: Trace files to merge (or directories containg `ndjson` files to be merged)
 - `--config`: Config file (default=`conf.ndjson`)
 - `--sort`: Sort by clock (default=`True`)
 - `--remove_meta`: Remove clock and sender data (default=`True`)
 - `--out`: Output file (default=`trace.ndjson`)
 
-Example: `python trace_merger.py tictac.ndjson `
+Examples: 
+
+`python trace_merger.py tictac.ndjson`
+
+`python trace_merger.py stopwatch.ndjson`
+
+`python trace_merger.py tictacwatch.ndjson`
 
 The validation can then be performed with the script 
 [tla_trace_validation.py](tla_trace_validation.py).
@@ -87,9 +101,17 @@ Arguments:
 - `--trace`: Trace file (default=`trace.ndjson`)
 - `--dfs`: use depth-first search (if not specified breadth-first search is used)
 
-Example: `python tla_trace_validation.py spec/TicTacTrace.tla`
+Examples: 
+
+`python tla_trace_validation.py spec/TicTacTrace.tla`
+
+`python tla_trace_validation.py spec/StopWatchTrace.tla`
+
+`python tla_trace_validation.py spec/TicTacWatchTrace.tla`
+
+***Note***: *first and last examples can be both used to validate a trace obtained by running `TicTacWatch`.*
 
 ## Directory structure
 
- - `spec/**`: contains TicTac specification and trace specification
- - `src/**`: contains TicTac implementation
+ - `spec/**`: contains (trace) specifications
+ - `src/**`: contains implementations
