@@ -12,8 +12,8 @@ def run(version, args):
     p = Popen([
         "java",
         "-cp",
-        # specify the classpath for the instrumentation library if just copied locally
-        # "target/TicTac-1.0-SNAPSHOT-jar-with-dependencies.jar:lib/instrumentation-1.3.jar",
+        # specify the classpath for the instrumentation library if the jar was just copied locally (or if the jar was built without dependencies)
+        # "target/TicTac-1.0-SNAPSHOT.jar:lib/instrumentation-1.3.jar:lib/gson-2.10.1.jar",
         "target/TicTac-1.0-SNAPSHOT-jar-with-dependencies.jar",
         "org.lbee.clocks."+version,
         args[0], args[1], args[2], args[3]
