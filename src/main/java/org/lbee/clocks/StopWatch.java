@@ -11,11 +11,11 @@ import org.lbee.instrumentation.trace.VirtualField;
 public class StopWatch {
     public void run(int startHour, int startMinute, int endHour, int endMinute)
             throws IOException, InterruptedException, ClockException {
-        // Create a tracer
+        // Create a tracer which logs into the file stopwatch.ndjson and uses a memory clock
         TLATracer tracer = TLATracer.getTracer("stopwatch.ndjson",
                 ClockFactory.getClock(ClockFactory.MEMORY));
 
-        // Get variables from spec
+        // specify the variables from the spec that will be traced
         VirtualField specHour = tracer.getVariableTracer("hour");
         VirtualField specMinute = tracer.getVariableTracer("minute");
 
@@ -24,6 +24,7 @@ public class StopWatch {
         while (! (hour == endHour && minute == endMinute)) {
             if (minute < 59) {
                 minute += 1;
+                // trace the update of the minutes
                 specMinute.update(minute);
             } else {
                 minute = 0;
@@ -33,10 +34,11 @@ public class StopWatch {
                 } else {
                     hour = 0;
                 }
-                specMinute.update(0);
+                // trace the update of the hours and the minutes
+                specMinute.update(minute);
                 specHour.update(hour);
             }
-            // Commit event tick !
+            // Commit event tick
             tracer.log("Tick");
 
             System.out.printf("Clock: %s:%s.\n", hour, minute);

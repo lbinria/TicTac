@@ -54,8 +54,8 @@ public class TicTacWatch {
                 specHour.update(hour);
             }
 
-            // BUG: if ((hour+minute) % 2 == 0) {
-            if (minute % 2 == 0) {
+            // BUG: if (minute % 2 == 0) {
+            if ((hour+minute) % 2 == 0) {
                 specNTack.apply("Add", 1);
                 eventName = "Tack";
             } else {

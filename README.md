@@ -53,23 +53,23 @@ can be used. It consists of the following steps:
  - Run TLC on the resulting trace file
 
 Arguments:
-- `--version`: Name of the implementation to test: `StopWatch` or `TicTac`
+- `--version`: Name of the implementation to test (`StopWatch` or `TicTac` or `TicTacWatch`)
 - `--compile`: compile the source code before running
 - `--dfs`: use depth-first search (if not specified breadth-first search is used)
 - `args`: arguments for the implementation
 
 Examples:
 
-`python trace_validation_pipeline.py -dfs -v StopWatch 22 0 1 0` 
+`python trace_validation_pipeline.py -c -dfs -v StopWatch 22 0 1 0` 
 
-`python trace_validation_pipeline.py -v TicTac 100` 
+`python trace_validation_pipeline.py -c -v TicTac 100` 
 
-`python trace_validation_pipeline.py -v TicTacWatch 23 50 20` 
+`python trace_validation_pipeline.py -c -v TicTacWatch 23 50 20` 
 
 ### Perform trace validation on a trace file 
 
-Alternatively, we can run the implementation with the script [run_impl.py](run_impl.py). Arguments:
-- `--version`: Name of the implementation to test: `StopWatch` or `TicTac`
+Alternatively, we can run the implementation with the script [run_impl.py](run_impl.py) (after building with `mvn package`). Arguments:
+- `--version`: Name of the implementation to test (`StopWatch` or `TicTac` or `TicTacWatch`)
 - `args`: arguments for the implementation
 
 Eamples: 
@@ -89,9 +89,9 @@ Then, clean the trace file by using the script [trace_merger.py](trace_merger.py
 
 Examples: 
 
-`python trace_merger.py tictac.ndjson`
-
 `python trace_merger.py stopwatch.ndjson`
+
+`python trace_merger.py tictac.ndjson`
 
 `python trace_merger.py tictacwatch.ndjson`
 
@@ -105,13 +105,13 @@ Arguments:
 
 Examples: 
 
-`python tla_trace_validation.py spec/TicTacTrace.tla`
-
 `python tla_trace_validation.py spec/StopWatchTrace.tla`
+
+`python tla_trace_validation.py spec/TicTacTrace.tla`
 
 `python tla_trace_validation.py spec/TicTacWatchTrace.tla`
 
-***Note***: *first and last examples can be both used to validate a trace obtained by running `TicTacWatch`.*
+***Note***: *last two commands can be both used to (in)validate a trace obtained by running `TicTacWatch`.*
 
 ## Directory structure
 
